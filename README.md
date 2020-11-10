@@ -3,6 +3,10 @@ IBM Planning Analytics Month level Dimension Generator
 
 zTD_Month_Dim_Gen - Description
 
+Copyright Success Cubed Ltd - www.successcubed.co.uk
+
+Licensing - See the GNU LIcense.
+
 This should be run in Perspectives. It uses a combination of Excel, VBA, and TI.
 
 This generates a series of CSV files which can then be read by the provided
@@ -113,5 +117,4 @@ the experience to do this, then please contact us, as we may be able to help.
 
 info@successcubed.co.uk
 
-Licensing
-See the GNU LIcense.
+
