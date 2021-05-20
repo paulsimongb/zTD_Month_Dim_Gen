@@ -4,7 +4,7 @@
 586,"zTD_Widest_Cube"
 585,"zTD_Widest_Cube"
 564,
-565,"sK5D@fXEegxp1Nx09xGaXtfmT@:;2BBdnQ6fupR2;empSbAM3SgaGXh]`re[[<Eihl3LTw6lBBNgd2\F=obmffBMZSgxU90zue^G>E=m]ik9jN;UrcN\;NxE\kj>[5=l\mzerEys0m3SEyBl215JEb4O1=yeG2Q\Fps9iVbh<OB=XL[kEdN7GnFJz_xN:W9\fFP_4Tbg"
+565,"phs]Z[E52yX8jmuJaI6PX7g8SUU`lt;jBuP3BBvjpc@WY6;zosCZOXJx42[@FdHX@x]V4wB9[qui]1YySv7FpsJad]25Df=Ps?R6oW<99Nh[MzMakoe?Jj]Wf]BH\e<X@gQ_L[lH<LhF:FbR`xAm2j_=3s54jE\>_8tu<Wg8[N`W<Pj:6?2hO8ok3Rudmvb3;zMZvxej"
 559,0
 928,0
 593,
@@ -142,35 +142,28 @@ IgnoredInputVarName=ValueVarType=33ColType=1165
 931,1
 0,0,0,
 603,0
-572,119
+572,102
 
 #****Begin: Generated Statements***
 #****End: Generated Statements****
 
 vThisPro = 'zTD_Time_Load_Alias_Param_Dim_Path' ;
 
-# Copyright Success Cubed Ltd 2008-2020
+# Copyright Success Cubed Ltd 2008-2021
 
-# GNU License
+# This loads in Aliases for the given Time dimension
 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# PS @2019
+# Also popluates the MEMBER_CAPTION and CAPTION
+# Aliases with the CalMthName Alias as these are required
+# by some Cognos products
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-# ###############################################
-
-# Purpose 
-
-# This loads in Aliases from a CSV file for the given Time dimension
+# PS 28-02-2021
+# This also puts the CalMthName Alias 
+# into the Description Text Attribute
+# (This will only be present for base level elements) 
+# It actually puts off a cut down version of the CalMthName Alias
+# in to the Description Text Attribute with prefixes removed, if possible.
 
 # ###############################################
 
@@ -222,16 +215,6 @@ ENDIF ;
 # #################################
 
 vAttrDim = '}ElementAttributes_' | vDim ;
-
-# #################################
-
-# Insert standard Aliases used by
-# Cognos Analytics and PAW
-# We will copy the CalMthName Alias
-# to these
-
-AttrInsert( vDim , '' , 'CAPTION' , 'A' ) ;
-AttrInsert( vDim , '' , 'MEMBER_CAPTION' , 'A' ) ;
 
 # #################################
 
@@ -292,7 +275,7 @@ ENDIF ;
 
 
 
-574,26
+574,44
 
 #****Begin: Generated Statements***
 #****End: Generated Statements****
@@ -311,6 +294,8 @@ vDataRecCount = vDataRecCount + 1 ;
 
 # SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 
+# ##############################################
+
 ElementAttrPutS( vAliasValue , vDim , vHier , vElem , vAliasName ) ;
 
 # If it is a CalMthName Alias also put it into standard aliases
@@ -318,7 +303,23 @@ ElementAttrPutS( vAliasValue , vDim , vHier , vElem , vAliasName ) ;
 IF(  vAliasName @= 'CalMthName' ) ;
   ElementAttrPutS( vAliasValue , vDim , vHier , vElem , 'MEMBER_CAPTION' ) ;
   ElementAttrPutS( vAliasValue , vDim , vHier , vElem , 'CAPTION' ) ;
+
+  # Also put CalMthName into the Description Attribute
+  # but trim off the eg E_CL_ part if they have used that
+
+  vCLpos = SCAN( 'CL_' , vAliasValue ) ;
+
+  IF( vCLpos > 0 ) ;
+    vDescrip = subst( vAliasValue, vCLpos + 3 , 255 ) ;
+  ELSE ;
+    vDescrip = vAliasValue ;
+  ENDIF ;
+
+  ElementAttrPutS( vDescrip , vDim , vHier , vElem , 'Description' ) ;
+
 ENDIF ;
+
+
 575,40
 
 #****Begin: Generated Statements***

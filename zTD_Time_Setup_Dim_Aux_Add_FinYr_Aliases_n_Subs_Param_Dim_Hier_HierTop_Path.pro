@@ -4,7 +4,7 @@
 586,"zTD_Wide_Cube"
 585,"zTD_Wide_Cube"
 564,
-565,"hLqKBu\1aa9iJT`ri;uP9QsRNw5xIRqtAu13>h4t2B\P;9dVaS>rV98>nq^pGszvjNBCz[T7=\nY;:gtF5Dn\Ep8lt1Br4ui99>ytMkzi`0C4T9T``rUj]:KyS1kRf^bP6C]>ZHF@DKTdtP6\_`J6Y_vJ`poAdw3VYW2r;dvNw\A1qCAVF]pph4`JhmpB54rwj<88xAG"
+565,"tbF=iSlYpOo]y[V>uTRha>R]H1OSMG;oQc2zgz[PmDCCKo^Q@j^TGCWxe=9oD3Az7?gp2YwDN<>_p7hqrppzr_OD:77\a6?o\V=CM:C>S5<KaQGK1=<Mg?1_Z5N]1;@L_IRXWK1JWKaqj2CYL9bAlZ0P[jB\18OG_b8DzFbY\^OLC;veJ4ACRDM?jnm0Lc[M\V=3Rr0f"
 559,1
 928,0
 593,
@@ -93,7 +93,7 @@ IgnoredInputVarName=zTD_D19VarType=32ColType=1165
 IgnoredInputVarName=zTD_D20VarType=32ColType=1165
 IgnoredInputVarName=ValueVarType=33ColType=1165
 603,0
-572,129
+572,111
 
 #****Begin: Generated Statements***
 #****End: Generated Statements****
@@ -102,27 +102,9 @@ vThisPro = 'zTD_Time_Setup_Dim_Aux_Add_FinYr_Aliases_n_Subs_Param_Dim_Hier_HierT
 
 # Copyright Success Cubed Ltd 2008-2020
 
-# GNU License
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-# ###############################################
-
-# Purpose 
-
 # This inserts a Fin Yr Alias for each Fin Yr that the user wants in this time dimension
 # It this creates a set of standard subsets with each of the FinYr Aliases.
+
 
 # NON-STANDARD CUT DOWN ERROR HANDLING
 # This process does not use the full set of zTD
@@ -250,7 +232,7 @@ vFinYrAlias = 'F' | trim(StartMthNum )  ;
 AttrInsert( vDim , '' , vFinYrAlias , 'A' ) ; 
 
 
-574,96
+574,143
 
 #****Begin: Generated Statements***
 #****End: Generated Statements****
@@ -343,6 +325,53 @@ IF( vHier @= vDim ) ;
   SubsetAliasSet( vDim , vSub, vAlias ) ;
 ELSE ;
   HierarchySubsetAliasSet( vDim , vHier, vSub, vAlias ) ;
+ENDIF ;
+
+# ##
+
+# Period Totals
+
+# This is really just so that subsets are created in which the base level elements in the subsets
+# will have each Fn Alias. There is no alias for the Period Totals
+
+# Eg Hier Name F4_Per_Tot
+
+IF( subst( vHier , 4 , 7 ) @= 'Per_Tot' ) ;
+
+  vMDX = '{TM1FILTERBYLEVEL( {TM1DRILLDOWNMEMBER( { [' | vDim | '].[' | vHier | '].[' | vHierTop | '] } , ALL, RECURSIVE )}, 1,2)}' ;
+
+  vSubSuffix = 'Full Year and Periods' ;
+
+  vSub = vAlias | '_' | vSubSuffix  ; 
+
+  IF( HierarchySubsetExists( vTargetDim,  vHier, vSub ) = 0 ) ;
+    HierarchySubsetCreate( vDim , vHier , vSub ) ;
+  ENDIF ;
+  HierarchySubsetMDXSet( vDim , vHier , vSub , vMDX );
+  IF( vHier @= vDim ) ;
+    SubsetAliasSet( vDim , vSub, vAlias ) ;
+  ELSE ;
+    HierarchySubsetAliasSet( vDim , vHier, vSub, vAlias ) ;
+  ENDIF ;
+
+  # ##
+
+  vSubSuffix = 'Periods and Full Year' ;
+
+  vSub = vAlias | '_' | vSubSuffix  ; 
+
+  IF( HierarchySubsetExists( vTargetDim,  vHier, vSub ) = 0 ) ;
+    HierarchySubsetCreate( vDim , vHier , vSub ) ;
+  ENDIF ;
+  HierarchySubsetMDXSet( vDim , vHier , vSub , vMDX );
+  IF( vHier @= vDim ) ;
+    SubsetAliasSet( vDim , vSub, vAlias ) ;
+  ELSE ;
+    HierarchySubsetAliasSet( vDim , vHier, vSub, vAlias ) ;
+  ENDIF ;
+
+  SubsetExpandAboveSet( vDim | ':' | vHier , vSub , 1 ) ;
+
 ENDIF ;
 
 # ############################################################

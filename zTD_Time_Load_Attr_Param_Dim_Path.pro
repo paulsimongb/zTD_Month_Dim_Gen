@@ -4,7 +4,7 @@
 586,"zTD_Widest_Cube"
 585,"zTD_Widest_Cube"
 564,
-565,"cgfa^p4fq>j1SSOpY^ngd?Eit1c9_oMP]]DE;w>mJrGb@dE<UW1W9jK]gYbQ7Gh^rDr?ISoEVREi<DAU:6HPDd>g<_Qs139DCd@[ZxbA_LE1;@6uj0vX6>b]tSjVJ2[8L9G1vYZWvHLaDCOqy41QV0R5EFGjGp8emEw47fm\`e493]loA^x@9LD<g^zstm?D5XpimYd@"
+565,"t5a>M1hCOHG60cvwVzNZaKI8rB7FzHx8I8:>5Zc5>La>1D3O]]zaCHLA;;Eeb8To]Qu_ZernD[v7oUFQ>m8l?y7nZ69oBKkR6gAY<;oPq=YWy\^xrOZjCEVUfBD@slVv\[\Y8mRJ0?r7zHdwEeFLpH8@`4MIK1t8TLyYTGE^t`BqP84Mx0\PEdeT7S]B1EIinD6I=]r4"
 559,0
 928,0
 593,
@@ -142,35 +142,16 @@ IgnoredInputVarName=ValueVarType=33ColType=1165
 931,1
 0,0,0,
 603,0
-572,110
+572,91
 
 #****Begin: Generated Statements***
 #****End: Generated Statements****
 
-vThisPro = 'zTD_Time_Load_Attr_Param_Dim_Path' ;
+vThisPro = 'zTD_Time_Load_Alias_Param_Dim_Path' ;
 
-# Copyright Success Cubed Ltd 2008-2020
+# Copyright Success Cubed Ltd 2008
 
-# GNU License
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-# ###############################################
-
-# Purpose 
-
-# This loads in Attributes from a CSV file  for the given Time dimension
+# This loads in Aliases for the given Time dimension
 
 # ###############################################
 

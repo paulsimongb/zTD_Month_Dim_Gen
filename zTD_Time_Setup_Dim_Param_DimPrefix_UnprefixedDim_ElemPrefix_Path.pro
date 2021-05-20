@@ -4,7 +4,7 @@
 586,"zTD_Wide_Cube"
 585,"zTD_Wide_Cube"
 564,
-565,"mpjO[ZuCA5O\wawQy00?v5KCaPbtsy;>UDPqQRq8ba?k0O`]GPYuUvq\75mFh0G?;=HkPrmGu_FUJ]AKbG\5JzI??5v]@3]Jt1`kajSgJKYc`VkA<k<y]qJ4loM>E3YrAtfz5xvHn6KZknWa9yAVjp^h3gD;Jd=HNQ5a4]Ew8kv<MZLKGvmLaOwf9cP\kJ^GoAVsK?W@"
+565,"fk^f0xaN3N>LHgzRwpjVKiulowfS7QM:sLHvu0Yhf^r>TFbmS=VcuHSN:DFCk0c=fMZ:^5DdT8:jPrxT9K54`fdDsMja`@_2Lz87RuV15a\Kzy^gaECLia4z7swy011tWwF<=msu2hDg?:xdbP0WAgcV:m3g1luWo[`aoRIUgOjv>M2O4DdPY40WfSv:JI?]4e;ma><X"
 559,1
 928,0
 593,
@@ -123,7 +123,7 @@ IgnoredInputVarName=zTD_D19VarType=32ColType=1165
 IgnoredInputVarName=zTD_D20VarType=32ColType=1165
 IgnoredInputVarName=ValueVarType=33ColType=1165
 603,0
-572,219
+572,218
 
 #****Begin: Generated Statements***
 #****End: Generated Statements****
@@ -131,25 +131,6 @@ IgnoredInputVarName=ValueVarType=33ColType=1165
 vThisPro = 'zTD_Time_Setup_Dim_Param_DimPrefix_UnprefixedDim_ElemPrefix_Path' ; 
 
 # Copyright Success Cubed Ltd 2008-2020
-
-# GNU License
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-# ###############################################
-
-# Purpose 
 
 # This does basic setup of the Time Dim 
 
@@ -297,7 +278,9 @@ IF( CubeExists( gvInfoDimCube ) = 1 ) ;
 
   # Put the basic info into the zTD_Info_Dim cube
 
-  CellPutS( vDimPrefix , gvInfoDimCube , vDim , 'Dim Prefix' ) ;
+  IF( CellIsUpdateable(  gvInfoDimCube , vDim , 'Dim Prefix' ) = 1 ) ;
+    CellPutS( vDimPrefix , gvInfoDimCube , vDim , 'Dim Prefix' ) ;
+  ENDIF ;
 
   CellPutS( vElemPrefix ,  gvInfoDimCube , vDim , 'Elem Prefix' ) ;
 
@@ -311,6 +294,22 @@ ENDIF ;
 # Calendar Month Name Alias
 
 AttrInsert( vDim , '' , 'CalMthName' , 'A' ) ;
+
+# Insert standard Aliases used by
+# Cognos Analytics and PAW
+# We will copy the CalMthName Alias
+# to these
+
+AttrInsert( vDim , '' , 'CAPTION' , 'A' ) ;
+AttrInsert( vDim , '' , 'MEMBER_CAPTION' , 'A' ) ;
+
+# Insert the Description Text Attribute
+# We will either copy the CalMthName into this
+# or if there is no CamMthName eg because this is a 
+# consolidated element that is specific to a financial year,
+# we will put in the name of the element
+
+AttrInsert( vDim , '' , 'Description' , 'S' ) ;
 
 # ##########################################################
 
@@ -391,7 +390,7 @@ IF( HierarchyExists( vDim , vHier ) = 0 ) ;
 ENDIF ;
 
 # #################################################
-574,245
+574,306
 
 #****Begin: Generated Statements***
 #****End: Generated Statements****
@@ -619,6 +618,67 @@ IF( HierarchySubsetExists( vTargetDim,  vHier, vSub ) = 0 ) ;
   HierarchySubsetCreate( vDim , vHier , vSub ) ;
 ENDIF ;
 HierarchySubsetMDXSet( vDim , vHier , vSub , vMDX );
+
+# ##
+
+# Period Totals
+
+# This is really just so that subsets are created in which the base level elements in the subsets
+# can have the CalMthName Alias or no Alias. There is no alias for the Period Totals
+
+# Eg Hier Name F4_Per_Tot
+
+IF( subst( vHier , 4 , 7 ) @= 'Per_Tot' ) ;
+
+  vMDX = '{TM1FILTERBYLEVEL( {TM1DRILLDOWNMEMBER( { [' | vDim | '].[' | vHier | '].[' | vHierTop | '] } , ALL, RECURSIVE )}, 1,2)}' ;
+
+  vSubSuffix = 'Full Year and Periods' ;
+
+  vSub =  'e_' | vSubSuffix  ; 
+
+  IF( HierarchySubsetExists( vTargetDim,  vHier, vSub ) = 0 ) ;
+    HierarchySubsetCreate( vDim , vHier , vSub ) ;
+  ENDIF ;
+  HierarchySubsetMDXSet( vDim , vHier , vSub , vMDX );
+  IF( vHier @= vDim ) ;
+    SubsetAliasSet( vDim , vSub, vAlias ) ;
+  ELSE ;
+    HierarchySubsetAliasSet( vDim , vHier, vSub, vAlias ) ;
+  ENDIF ;
+
+  vSub = 'z_' | vSubSuffix  ; 
+
+  IF( HierarchySubsetExists( vTargetDim,  vHier, vSub ) = 0 ) ;
+    HierarchySubsetCreate( vDim , vHier , vSub ) ;
+  ENDIF ;
+  HierarchySubsetMDXSet( vDim , vHier , vSub , vMDX );
+
+  # ##
+
+  vSubSuffix = 'Periods and Full Year' ;
+
+  vSub =  'e_' | vSubSuffix  ; 
+
+  IF( HierarchySubsetExists( vTargetDim,  vHier, vSub ) = 0 ) ;
+    HierarchySubsetCreate( vDim , vHier , vSub ) ;
+  ENDIF ;
+  HierarchySubsetMDXSet( vDim , vHier , vSub , vMDX );
+  IF( vHier @= vDim ) ;
+    SubsetAliasSet( vDim , vSub, vAlias ) ;
+  ELSE ;
+    HierarchySubsetAliasSet( vDim , vHier, vSub, vAlias ) ;
+  ENDIF ;
+
+  SubsetExpandAboveSet( vDim | ':' | vHier , vSub , 1 ) ;
+
+  vSub = 'z_' | vSubSuffix  ; 
+
+  IF( HierarchySubsetExists( vTargetDim,  vHier, vSub ) = 0 ) ;
+    HierarchySubsetCreate( vDim , vHier , vSub ) ;
+  ENDIF ;
+  HierarchySubsetMDXSet( vDim , vHier , vSub , vMDX );
+
+ENDIF ;
 
 # ######################################################################
 

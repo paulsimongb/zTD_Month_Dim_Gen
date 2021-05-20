@@ -4,7 +4,7 @@
 586,"zTD_Wide_Cube"
 585,"zTD_Wide_Cube"
 564,
-565,"eCiX8aEJ:>Y^ePe@nMCSaF>vyAD3VtUWXy8QJ9uG;]GDvYJHKlMg]mI>\N9YPOA:Y<EdsWdH>2bwigezddl4fE6PJ_fT?SR@uV`_DzPM`oYq>Z=jKygN<kCM[n\OOqhPbB>AniQjUwTfd2@?EYLa1nM5rSYJH^ZTU18SwLhNldX=Pr<Z\socJ75rmO]=vDL^0tE8@LgH"
+565,"orW_2?qExwl1LJyaSRa9N@xpf?L=r7KS7z>GQ[lBRHQeLPldOL[Y7NU2TsRKY=Fn\ZI;F_6cA3]:s>U;Vhr:733qh`N^7Ao0K?sp;dPKUjP<yClfvEzRb=DLQK^Fmxj2ceMZ?coIlKviu35J8tVR0Wa\\]n;2=>UfvAMrDrP2rYYJP;WhW2^_teLR3f;5:1n7^DGZanI"
 559,1
 928,0
 593,
@@ -105,7 +105,7 @@ IgnoredInputVarName=zTD_D19VarType=32ColType=1165
 IgnoredInputVarName=zTD_D20VarType=32ColType=1165
 IgnoredInputVarName=ValueVarType=33ColType=1165
 603,0
-572,125
+572,106
 
 #****Begin: Generated Statements***
 #****End: Generated Statements****
@@ -113,25 +113,6 @@ IgnoredInputVarName=ValueVarType=33ColType=1165
 vThisPro = 'zTD_Time_Upd_Dim_and_Named_Hier_Structure_Param_Dim_Path' ;
 
 # Copyright Success Cubed Ltd 2008-2020
-
-# GNU License
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-# ###############################################
-
-# Purpose 
 
 # This builds the time dimension structure from the CSV
 # file output from the spreadsheet
