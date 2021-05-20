@@ -46,6 +46,7 @@ Opening to Date (CTD of month before)
 Moving Annual Total
 Moving Annual Average (MAT/12)
 Difference to period before
+Period Total sum of the same period across all years
 
 As well as genarating separate Named Hierarchies for each 
 combination of Calendar / Financial Year with each time consolidation type,
@@ -82,6 +83,20 @@ base level elements
 consolidated level elements
 the full hierarchy
 the default top level consolidation
+
+For the special Per_Tot hierarchy of Period Totals it generates
+additional subsets 
+Periods and Full Year (sum of all Period Totals)
+Full Year and Periods
+
+Use these subsets in PAX or PAW which will allow you to put eg the F4_Per_Tot hierarchy
+on the columns while showing eg the Year level from the F4_YHQM on the rows.
+This will then give a view showing Periods on the columns and Years on the rows 
+which prior to Named Hierarchies could only be achieved using separate Year and Period
+dimensions. With this approach you can still have that view while retaining all the
+advantages of a single combined Year-Period dimension, such as the ability to handle
+different financial years, moving annual totals, cumulative to date, etc.
+See Periods On Cols Years on Rows Two Dims from One.jpg above.
 
 Try it
 The above attempts to describe what the generated dimension offers.
